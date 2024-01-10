@@ -1,5 +1,5 @@
-using Infracstructure.Repository;
 using Domain.Primitive;
+using Infracstructure.Repository;
 using UnityEngine;
 
 public class SubjectB : Character
