@@ -1,38 +1,36 @@
 using Infracstructure.Repository;
+using Domain.Primitive;
 using UnityEngine;
 
-namespace Misc.Experimental
+public class SubjectB : Character
 {
-    public class SubjectB : SubjectFather
+    void Start()
     {
-        void Start()
+        combat = new CombatRepository();
+        healthPoint = 100;
+        isLive = true;
+        damage = 25;
+    }
+
+    void Update()
+    {
+        if (isLive && healthPoint <= 0)
         {
-            combat = new CombatRepository();
-            healthPoint = 100;
-            isLive = true;
-            damage = 25;
+            healthPoint = 0;
+            isLive = false;
+            Debug.Log("HP B: " + healthPoint);
+            Debug.Log("Subject B is live: " + isLive);
         }
+    }
 
-        void Update()
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        var enemy = collision.gameObject.GetComponent<Character>() as SubjectA;
+
+        if (enemy && enemy.isLive && isAttacking)
         {
-            if (isLive && healthPoint <= 0)
-            {
-                healthPoint = 0;
-                isLive = false;
-                Debug.Log("HP B: " + healthPoint);
-                Debug.Log("Subject B is live: " + isLive);
-            }
-        }
-
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            var enemy = collision.gameObject.GetComponent<SubjectFather>() as SubjectA;
-
-            if (enemy && enemy.isLive && isAttacking)
-            {
-                enemy.healthPoint = enemy.combat.TakeDamage(enemy.healthPoint, damage);
-                isAttacking = !isAttacking;
-            }
+            enemy.healthPoint = enemy.combat.TakeDamage(enemy.healthPoint, damage);
+            isAttacking = !isAttacking;
         }
     }
 }
