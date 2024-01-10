@@ -27,9 +27,10 @@ public class SubjectA : SubjectFather
     {
         var enemy = collision.gameObject.GetComponent<SubjectFather>() as SubjectB;
 
-        if (enemy && enemy.isLive)
+        if (enemy && enemy.isLive && isAttacking)
         {
             enemy.healthPoint = enemy.combat.TakeDamage(enemy.healthPoint, damage);
+            isAttacking = !isAttacking;
         }
     }
 }

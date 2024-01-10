@@ -28,9 +28,10 @@ namespace Misc.Experimental
         {
             var enemy = collision.gameObject.GetComponent<SubjectFather>() as SubjectA;
 
-            if (enemy && enemy.isLive)
+            if (enemy && enemy.isLive && isAttacking)
             {
                 enemy.healthPoint = enemy.combat.TakeDamage(enemy.healthPoint, damage);
+                isAttacking = !isAttacking;
             }
         }
     }

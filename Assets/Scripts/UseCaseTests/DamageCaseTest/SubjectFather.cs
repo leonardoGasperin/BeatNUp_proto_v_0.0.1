@@ -7,7 +7,8 @@ namespace Misc.Experimental
     {
         public ICombatRepository combat;
         public int healthPoint;
-        public bool isLive;
         public int damage;
+        public bool isLive;
+        public bool isAttacking;
     }
 }
