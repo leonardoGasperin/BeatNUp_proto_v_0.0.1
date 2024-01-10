@@ -1,8 +1,8 @@
+using Domain.Primitive;
 using Infracstructure.Repository;
-using Misc.Experimental;
 using UnityEngine;
 
-public class SubjectA : SubjectFather
+public class SubjectA : Character
 {
     void Start()
     {
@@ -25,11 +25,12 @@ public class SubjectA : SubjectFather
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        var enemy = collision.gameObject.GetComponent<SubjectFather>() as SubjectB;
+        var enemy = collision.gameObject.GetComponent<Character>() as SubjectB;
 
-        if (enemy && enemy.isLive)
+        if (enemy && enemy.isLive && isAttacking)
         {
             enemy.healthPoint = enemy.combat.TakeDamage(enemy.healthPoint, damage);
+            isAttacking = !isAttacking;
         }
     }
 }

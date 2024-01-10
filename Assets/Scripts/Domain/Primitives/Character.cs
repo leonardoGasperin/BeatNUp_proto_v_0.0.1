@@ -1,13 +1,14 @@
 using Domain.Repository;
 using UnityEngine;
 
-namespace Misc.Experimental
+namespace Domain.Primitive
 {
-    public class SubjectFather : MonoBehaviour
+    public class Character : MonoBehaviour
     {
         public ICombatRepository combat;
         public int healthPoint;
-        public bool isLive;
         public int damage;
+        public bool isLive;
+        public bool isAttacking;
     }
 }
