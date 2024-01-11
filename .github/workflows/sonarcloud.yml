@@ -75,5 +75,3 @@ jobs:
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"leonardoGasperin_BeatNUp_proto_v_0.0.1" /o:"cov" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
 
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
-          - name: Format Code
-          run: dotnet csharpier
