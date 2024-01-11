@@ -76,6 +76,6 @@ jobs:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-         .sonar/sonar-scanner/bin/sonar-scanner -Dsonar.login="${{ secrets.SONAR_TOKEN }}" \
-           -Dsonar.unity.version=2022.3 \
-           -Dsonar.unity.project=BeatNUp_proto_v_0.0.1
+          .sonar/sonar-scanner/bin/sonar-scanner -Dsonar.login="${{ secrets.SONAR_TOKEN }}" \
+             "-Dsonar.unity.version=2022.3" \
+             "-Dsonar.unity.project=BeatNUp_proto_v_0.0.1"
