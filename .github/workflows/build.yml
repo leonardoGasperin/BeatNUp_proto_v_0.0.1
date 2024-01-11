@@ -8,21 +8,6 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  format:
-    name: Format Code with CSharpier
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Install CSharpier
-        run: |
-          dotnet tool install --global csharpier
-          echo "::add-path::$(dotnet tool run csharpier --path)"
-
-      - name: Format code
-        run: csharpier format --files "path/to/your/code/**/*.cs"
   build:
     name: Build and analyze
     runs-on: windows-latest
@@ -35,13 +20,6 @@ jobs:
           key: ${{ runner.os }}-nuget
           restore-keys: |
             ${{ runner.os }}-nuget
-
-      - name: Set up .NET Framework 4.6
-        run: |
-          Add-WindowsFeature Web-Server
-          Invoke-WebRequest -Uri https://download.visualstudio.microsoft.com/download/pr/11551981/e64d79b40219aea618ce2fe10ebd5f0d/NDP461-KB3102438-Web.exe -OutFile NDP461-KB3102438-Web.exe
-          Start-Process -Wait -FilePath NDP461-KB3102438-Web.exe -ArgumentList '/quiet', '/norestart'
-          Remove-Item NDP461-KB3102438-Web.exe
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
