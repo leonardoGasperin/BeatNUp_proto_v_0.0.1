@@ -24,14 +24,14 @@ jobs:
     - name: Set up .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 4.5
+        dotnet-version: 4.7.1
     
     - name: Install CSharpier
       run: dotnet tool install -g csharpier
 
     - name: Check for formatting issues
       run: dotnet csharpier .
-      
+
   build:
     name: Build and analyze
     runs-on: windows-latest
@@ -47,7 +47,7 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 4.5
+          dotnet-version: 4.7.1
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
