@@ -8,6 +8,21 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
+  format:
+    name: Format Code with CSharpier
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install CSharpier
+        run: |
+          dotnet tool install --global csharpier
+          echo "::add-path::$(dotnet tool run csharpier --path)"
+
+      - name: Format code
+        run: csharpier format --files "path/to/your/code/**/*.cs"
   build:
     name: Build and analyze
     runs-on: windows-latest
