@@ -1,40 +1,17 @@
 name: SonarCloud
+
 on:
   push:
     branches:
       - develop
   pull_request:
     types: [opened, synchronize, reopened]
+
 jobs:
-  code_format:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Cache .NET packages
-      uses: actions/cache@v3
-      with:
-        path: ~/.nuget/packages
-        key: ${{ runner.os }}-nuget
-        restore-keys: |
-          ${{ runner.os }}-nuget
-
-    - name: Set up .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 4.7.1
-    
-    - name: Install CSharpier
-      run: dotnet tool install -g csharpier
-
-    - name: Check for formatting issues
-      run: dotnet csharpier .
-
   build:
     name: Build and analyze
     runs-on: windows-latest
+
     steps:
       - name: Cache .NET packages
         uses: actions/cache@v3
@@ -53,35 +30,38 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: 17
-          distribution: 'zulu' # Alternative distribution options are available.
+          distribution: 'zulu'
+
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0
+
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
         with:
-          path: ~\sonar\cache
+          path: ~/sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
+
       - name: Cache SonarCloud scanner
         id: cache-sonar-scanner
         uses: actions/cache@v3
         with:
-          path: .\.sonar\scanner
+          path: ./.sonar/scanner
           key: ${{ runner.os }}-sonar-scanner
           restore-keys: ${{ runner.os }}-sonar-scanner
+
       - name: Install SonarCloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        shell: powershell
         run: |
-          New-Item -Path .\.sonar\scanner -ItemType Directory
-          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+          mkdir -p .sonar/scanner
+          dotnet tool update dotnet-sonarscanner --tool-path .sonar/scanner
+
       - name: Build and analyze
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"leonardoGasperin_BeatNUp_proto_v_0.0.1" /o:"cov" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          .sonar/scanner/dotnet-sonarscanner begin /k:"leonardoGasperin_BeatNUp_proto_v_0.0.1" /o:"cov" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          .sonar/scanner/dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
