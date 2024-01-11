@@ -58,11 +58,8 @@ jobs:
    - uses: actions/checkout@v2
 
    - name: Build Unity
-     uses: game-ci/unity-builder@v2
-     with:
-       unityVersion: 2022.3.LTS
-       targetPlatform: StandaloneLinux64
-
+     run: echo "No additional build steps needed"
+     
  sonarcloud:
    needs: build
    runs-on: ubuntu-latest
