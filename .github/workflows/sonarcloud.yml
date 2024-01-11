@@ -39,30 +39,7 @@ permissions:
   pull-requests: read # allows SonarCloud to decorate PRs with analysis results
 
 jobs:
- setup:
-   runs-on: windows-latest
-
-   steps:
-   - uses: actions/checkout@v2
-
-   - name: Setup Unity
-     uses: game-ci/unity-builder@v2
-     with:
-       unityVersion: 2022.3.LTS
-       unityNoKey: true
-
- build:
-   needs: setup
-   runs-on: windows-latest
-
-   steps:
-   - uses: actions/checkout@v2
-
-   - name: Build Unity
-     run: echo "No additional build steps needed"
-     
  sonarcloud:
-   needs: build
    runs-on: windows-latest
 
    steps:
@@ -74,7 +51,6 @@ jobs:
        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
  csharpier:
-   needs: build
    runs-on: windows-latest
 
    steps:
