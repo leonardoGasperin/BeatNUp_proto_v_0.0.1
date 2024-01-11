@@ -40,7 +40,7 @@ permissions:
 
 jobs:
  setup:
-   runs-on: ubuntu-latest
+   runs-on: windows-latest
 
    steps:
    - uses: actions/checkout@v2
@@ -53,7 +53,7 @@ jobs:
 
  build:
    needs: setup
-   runs-on: ubuntu-latest
+   runs-on: windows-latest
 
    steps:
    - uses: actions/checkout@v2
@@ -63,7 +63,7 @@ jobs:
      
  sonarcloud:
    needs: build
-   runs-on: ubuntu-latest
+   runs-on: windows-latest
 
    steps:
    - uses: actions/checkout@v2
@@ -75,7 +75,7 @@ jobs:
 
  csharpier:
    needs: build
-   runs-on: ubuntu-latest
+   runs-on: windows-latest
 
    steps:
    - uses: actions/checkout@v2
