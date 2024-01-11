@@ -60,18 +60,21 @@ jobs:
           path: .\.sonar\scanner
           key: ${{ runner.os }}-sonar-scanner
           restore-keys: ${{ runner.os }}-sonar-scanner
-      - name: Install SonarCloud scanner
-        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        shell: powershell
+      - name: Install SonarScanner for Unity
         run: |
-          New-Item -Path .\.sonar\scanner -ItemType Directory
-          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+              wget https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip
+              unzip build-wrapper-linux-x86.zip
+              mkdir .sonar
+              mv build-wrapper-linux-x86 .sonar/build-wrapper
+
+              curl -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip -o sonar-scanner.zip
+              unzip sonar-scanner.zip
+              mv sonar-scanner-4.6.2.2472-linux .sonar/sonar-scanner
       - name: Build and analyze
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"leonardoGasperin_BeatNUp_proto_v_0.0.1" /o:"cov" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          .sonar/sonar-scanner/bin/sonar-scanner -Dsonar.login="${{ secrets.SONAR_TOKEN }}" \
+            -Dsonar.unity.version=2022.3 \
+            -Dsonar.unity.project=YourUnityProjectPath
