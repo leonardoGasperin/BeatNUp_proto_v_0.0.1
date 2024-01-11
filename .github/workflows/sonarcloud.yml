@@ -62,14 +62,14 @@ jobs:
           restore-keys: ${{ runner.os }}-sonar-scanner
       - name: Install SonarScanner for Unity
         run: |
-               wget https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip
-               unzip build-wrapper-linux-x86.zip
-               mkdir .sonar
-               mv build-wrapper-linux-x86 .sonar/build-wrapper
+              Invoke-WebRequest -Uri https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip -OutFile build-wrapper-linux-x86.zip
+              Expand-Archive -Path build-wrapper-linux-x86.zip -DestinationPath .
+              New-Item -ItemType Directory -Force -Path .sonar
+              Move-Item -Path build-wrapper-linux-x86 -Destination .sonar/build-wrapper
 
-               curl -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip -o sonar-scanner.zip
-               unzip sonar-scanner.zip
-               mv sonar-scanner-4.6.2.2472-linux .sonar/sonar-scanner
+              Invoke-WebRequest -Uri https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip -OutFile sonar-scanner.zip
+              Expand-Archive -Path sonar-scanner.zip -DestinationPath .
+              Move-Item -Path sonar-scanner-4.6.2.2472-linux -Destination .sonar/sonar-scanner
 
       - name: Build and analyze
         env:
