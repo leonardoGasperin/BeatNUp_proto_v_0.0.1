@@ -1,0 +1,58 @@
+name: Unity CI CD
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:    
+  build:
+    name: Build and analyze
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'zulu' # Alternative distribution options are available.
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~\sonar\cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache SonarCloud scanner
+        id: cache-sonar-scanner
+        uses: actions/cache@v3
+        with:
+          path: .\.sonar\scanner
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner
+      - name: Install SonarScanner for Unity
+        run: |
+              wget https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip
+              unzip build-wrapper-linux-x86.zip
+              mkdir .sonar
+              mv build-wrapper-linux-x86 .sonar/build-wrapper
+
+              curl -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip -o sonar-scanner.zip
+              mkdir temp
+              unzip sonar-scanner.zip -d temp
+              mv temp/* .sonar/sonar-scanner
+              rm -r temp
+
+      - name: Build and analyze
+        env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+              .sonar/sonar-scanner/bin/sonar-scanner -Dsonar.login="${{ secrets.SONAR_TOKEN }}" \
+              -D sonar.projectKey=leonardoGasperin_BeatNUp_proto_v_0.0.1 \
+              -D sonar.organization=cov \
+              -D sonar.host.url=https://sonarcloud.io \
+              -D sonar.unity.version=2022.3 \
+              -D sonar.unity.project=BeatNUp_proto_v_0.0.1
