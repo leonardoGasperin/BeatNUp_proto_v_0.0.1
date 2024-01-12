@@ -58,10 +58,10 @@ jobs:
               -D sonar.unity.project=BeatNUp_proto_v_0.0.1
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 8.0.100
+      #- name: Set up .NET
+        #uses: actions/setup-dotnet@v1
+        #with:
+          #dotnet-version: 8.0.100
       - name: Install CSharpier
         run: dotnet tool install -g csharpier
       - name: Check code formatting with Sharpier
