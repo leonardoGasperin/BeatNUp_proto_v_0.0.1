@@ -65,4 +65,4 @@ jobs:
       - name: Install CSharpier
         run: dotnet tool install -g csharpier
       - name: Check code formatting with Sharpier
-        run: dotnet csharpier Assets/Scripts/**/*.cs
+        run: dotnet csharpier .
