@@ -78,4 +78,5 @@ jobs:
         run: |
           .sonar/sonar-scanner/bin/sonar-scanner -Dsonar.login="${{ secrets.SONAR_TOKEN }}" \
              -Dsonar.unity.version=2022.3 \
-             -Dsonar.unity.project=BeatNUp_proto_v_0.0.1
+             -Dsonar.unity.project=BeatNUp_proto_v_0.0.1 \
+             -Dsonar.host.url=https://sonarcloud.io
