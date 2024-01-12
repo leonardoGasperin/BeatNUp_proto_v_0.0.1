@@ -1,0 +1,82 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# This workflow helps you trigger a SonarCloud analysis of your code and populates
+# GitHub Code Scanning alerts with the vulnerabilities found.
+# Free for open source project.
+
+# 1. Login to SonarCloud.io using your GitHub account
+
+# 2. Import your project on SonarCloud
+#     * Add your GitHub organization first, then add your repository as a new project.
+#     * Please note that many languages are eligible for automatic analysis,
+#       which means that the analysis will start automatically without the need to set up GitHub Actions.
+#     * This behavior can be changed in Administration > Analysis Method.
+#
+# 3. Follow the SonarCloud in-product tutorial
+#     * a. Copy/paste the Project Key and the Organization Key into the args parameter below
+#          (You'll find this information in SonarCloud. Click on "Information" at the bottom left)
+#
+#     * b. Generate a new token and add it to your Github repository's secrets using the name SONAR_TOKEN
+#          (On SonarCloud, click on your avatar on top-right > My account > Security
+#           or go directly to https://sonarcloud.io/account/security/)
+
+# Feel free to take a look at our documentation (https://docs.sonarcloud.io/getting-started/github/)
+# or reach out to our community forum if you need some help (https://community.sonarsource.com/c/help/sc/9)
+
+name: Unity CI CD
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  build:
+    name: Build and analyze
+    runs-on: windows-latest
+    steps:
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'zulu' # Alternative distribution options are available.
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~\sonar\cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache SonarCloud scanner
+        id: cache-sonar-scanner
+        uses: actions/cache@v3
+        with:
+          path: .\.sonar\scanner
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner
+      - name: Install SonarScanner for Unity
+        run: |
+              Invoke-WebRequest -Uri https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip -OutFile build-wrapper-linux-x86.zip
+              Expand-Archive -Path build-wrapper-linux-x86.zip -DestinationPath .
+              New-Item -ItemType Directory -Force -Path .sonar
+              Move-Item -Path build-wrapper-linux-x86 -Destination .sonar/build-wrapper
+
+              Invoke-WebRequest -Uri https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip -OutFile sonar-scanner.zip
+              Expand-Archive -Path sonar-scanner.zip -DestinationPath .
+              Move-Item -Path sonar-scanner-4.6.2.2472-linux -Destination .sonar/sonar-scanner
+
+      - name: Build and analyze
+        env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          .sonar/sonar-scanner/bin/sonar-scanner -Dsonar.login="${{ secrets.SONAR_TOKEN }}" `
+             "-Dsonar.unity.version=2022.3" `
+             "-Dsonar.unity.project=BeatNUp_proto_v_0.0.1"
+             
