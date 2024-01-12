@@ -78,7 +78,7 @@ jobs:
         run: |
               .sonar/sonar-scanner/bin/sonar-scanner -Dsonar.login="${{ secrets.SONAR_TOKEN }}" \
               -D sonar.projectKey=leonardoGasperin_BeatNUp_proto_v_0.0.1 \
-              -D sonar.organization=CoV \
+              -D sonar.organization=cov \
               -D sonar.host.url=https://sonarcloud.io \
               -D sonar.unity.version=2022.3 \
               -D sonar.unity.project=BeatNUp_proto_v_0.0.1
