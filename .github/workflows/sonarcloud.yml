@@ -69,7 +69,7 @@ jobs:
 
               curl -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.0.2856-linux.zip -o sonar-scanner.zip
               unzip sonar-scanner-cli-4.8.0.2856-linux.zip
-              mv sonar-scanner-cli-4.8.0.2856-linux .sonar/sonar-scanner
+              mv sonar-scanner-cli-* .sonar/sonar-scanner
 
       - name: Build and analyze
         env:
