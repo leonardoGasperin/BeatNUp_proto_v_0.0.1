@@ -53,8 +53,6 @@ jobs:
           path: ~\sonar\cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
-      - name: Print Java version
-        run: java -version
       - name: Cache SonarCloud scanner
         id: cache-sonar-scanner
         uses: actions/cache@v3
@@ -79,6 +77,7 @@ jobs:
          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
               .sonar/sonar-scanner/bin/sonar-scanner -Dsonar.login="${{ secrets.SONAR_TOKEN }}" \
+              java -version \
               -D sonar.projectKey=leonardoGasperin_BeatNUp_proto_v_0.0.1 \
               -D sonar.organization=cov \
               -D sonar.host.url=https://sonarcloud.io \
