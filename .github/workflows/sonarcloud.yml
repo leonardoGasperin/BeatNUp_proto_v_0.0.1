@@ -6,14 +6,8 @@ on:
       - develop
   pull_request:
     types: [opened, synchronize, reopened]
-jobs:
-  code_format:
-    name: Code format
-    runs-on: ubuntu-latest
-    steps:
-    
+jobs:    
   build:
-    needs: code_format
     name: Build and analyze
     runs-on: ubuntu-latest
     steps:
