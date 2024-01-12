@@ -66,8 +66,8 @@ jobs:
               unzip build-wrapper-linux-x86.zip
               mkdir .sonar
               mv build-wrapper-linux-x86 .sonar/build-wrapper
-          
-              curl -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.3744-linux.zip -o sonar-scanner.zip
+
+              wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.3744-linux.zip -O sonar-scanner.zip
               unzip sonar-scanner.zip
               mv sonar-scanner-cli-4.7.0.3744-linux .sonar/sonar-scanner
 
