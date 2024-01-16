@@ -4,14 +4,6 @@ using UnityEngine;
 
 public class SubjectB : Character
 {
-    void Start()
-    {
-        combat = new CombatRepository();
-        healthPoint = 100;
-        isLive = true;
-        damage = 25;
-    }
-
     void Update()
     {
         if (isLive && healthPoint <= 0)
