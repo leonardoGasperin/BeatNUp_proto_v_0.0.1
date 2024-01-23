@@ -1,4 +1,5 @@
 using Domain.Repository;
+using Domain.Rules;
 using Infracstructure.Repository;
 using UnityEngine;
 
@@ -27,8 +28,8 @@ namespace Domain.Primitive
             {
                 healthPoint = 0;
                 isLive = false;
-                Debug.Log("HP B: " + healthPoint);
-                Debug.Log("Subject B is live: " + isLive);
+                Debug.Log("HP " + gameObject.name + ": " + healthPoint);
+                Debug.Log(gameObject.name + " is live: " + isLive);
             }
         }
 
@@ -36,19 +37,18 @@ namespace Domain.Primitive
         {
             var objectCollisionLayer = collision.gameObject.layer;
 
-            if (
-                gameObject.layer != objectCollisionLayer
-                    && objectCollisionLayer == LayerMask.NameToLayer("Player")
-                || objectCollisionLayer == LayerMask.NameToLayer("Enemy")
-            )
+            if (CombatRules.CanDoDamage(objectCollisionLayer, gameObject.layer, isAttacking))
             {
-                var target = collision.gameObject.GetComponent<Character>();
+                RecivieDamage(collision.gameObject.GetComponent<Character>());
+            }
+        }
 
-                if (target != null && target.isLive && isAttacking)
-                {
-                    target.healthPoint = target.combat.TakeDamage(target.healthPoint, damage);
-                    isAttacking = !isAttacking;
-                }
+        private void RecivieDamage(Character target)
+        {
+            if (target != null && target.isLive && isAttacking)
+            {
+                target.healthPoint = target.combat.TakeDamage(target.healthPoint, damage);
+                isAttacking = !isAttacking;
             }
         }
     }
