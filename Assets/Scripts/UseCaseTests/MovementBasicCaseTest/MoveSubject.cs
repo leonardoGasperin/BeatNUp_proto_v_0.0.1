@@ -1,15 +1,14 @@
 using Domain.Primitive;
-using Infracstructure.Repository;
 using UnityEngine;
 
 public class MoveSubject : Character
 {
     private GameObject me;
-    private void Start()
+
+    protected override void Start()
     {
-        combat = new CombatRepository();
-        movement = new MovementRepository();
-        me = this.gameObject;
+        base.Start();
+        me = gameObject;
     }
 
     public void Update()
