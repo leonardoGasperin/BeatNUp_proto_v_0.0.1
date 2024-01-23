@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4227907685816061034}
   - component: {fileID: 145599187911789305}
   - component: {fileID: 9060746208129772010}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SubjectA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,9 +98,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29643c702a4d760478b3b6b7e2256124, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthPoint: 0
-  isLive: 0
-  damage: 0
+  level: 1
+  healthPoint: 25
+  damage: 20
+  movementSpeed: 1
+  isLive: 1
+  isAttacking: 0
 --- !u!61 &9060746208129772010
 BoxCollider2D:
   m_ObjectHideFlags: 0
