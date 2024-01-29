@@ -22,7 +22,7 @@ namespace Domain.Primitive
             movement = new MovementRepository();
         }
 
-        void Update()
+        protected virtual void Update()
         {
             if (isLive && healthPoint <= 0)
             {
