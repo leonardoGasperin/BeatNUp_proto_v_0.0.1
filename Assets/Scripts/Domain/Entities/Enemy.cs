@@ -1,5 +1,6 @@
 using Domain.Enum;
 using Domain.Primitive;
+using Domain.Rules;
 using Unity.Burst.CompilerServices;
 using UnityEngine;
 
@@ -7,34 +8,29 @@ namespace Domain.Entities
 {
     public class Enemy : Character
     {
-        private SubjectA subjectA;
+        private Transform playerTransform;
         public EnemyType enemyType;
 
         protected override void Start()
         {
             base.Start();
-            subjectA = GameObject.FindGameObjectWithTag("Player").GetComponent<SubjectA>();
+            playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         }
 
         protected override void Update()
         {
             base.Update();
 
-            if (CanSeePlayer())
+            if (CombatRules.CanSeePlayer(playerTransform, transform))
             {
-                int visionOrientation = (int)Mathf.Sign(subjectA.transform.position.x - transform.position.x);
-                transform.position = movement.MovementOnXAxis(transform.position, movementSpeed, visionOrientation);
+                OnChasingPlayer();
             }
         }
 
-        private bool CanSeePlayer()
+        private void OnChasingPlayer()
         {
-            Vector2 directionToPlayer = subjectA.transform.position - transform.position;
-            Debug.DrawLine(transform.position, (Vector2)transform.position + directionToPlayer.normalized * 5f, Color.red);
-            int layerMask = 1 << subjectA.gameObject.layer;
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToPlayer, 5f, layerMask);
-
-            return hit.collider != null && hit.collider.gameObject.layer == subjectA.gameObject.layer;
+            int visionOrientation = (int)Mathf.Sign(playerTransform.transform.position.x - transform.position.x);
+            transform.position = movement.MovementOnXAxis(transform.position, movementSpeed, visionOrientation);
         }
     }
 }
