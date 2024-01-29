@@ -21,6 +21,7 @@ namespace Domain.Entities
         {
             base.Update();
 
+            ///TODO: Futuramente maquina de estado.
             if (CombatRules.CanSeePlayer(playerTransform, transform))
             {
                 OnChasingPlayer();
