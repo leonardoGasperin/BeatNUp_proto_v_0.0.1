@@ -11,8 +11,9 @@ public class MoveSubject : Character
         me = gameObject;
     }
 
-    public void Update()
+    protected override void Update()
     {
+        base.Update();
         me.transform.position = movement.MovementOnXAxis(me.transform.position, movementSpeed, 1);
     }
 }
