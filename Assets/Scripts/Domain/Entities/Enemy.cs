@@ -19,6 +19,12 @@ namespace Domain.Entities
         protected override void Update()
         {
             base.Update();
+
+            if (CanSeePlayer())
+            {
+                int visionOrientation = (int)Mathf.Sign(subjectA.transform.position.x - transform.position.x);
+                transform.position = movement.MovementOnXAxis(transform.position, movementSpeed, visionOrientation);
+            }
         }
 
         private bool CanSeePlayer()
