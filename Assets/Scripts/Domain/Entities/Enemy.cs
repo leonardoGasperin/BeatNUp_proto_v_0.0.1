@@ -29,8 +29,14 @@ namespace Domain.Entities
 
         private void OnChasingPlayer()
         {
-            int visionOrientation = (int)Mathf.Sign(playerTransform.transform.position.x - transform.position.x);
-            transform.position = movement.MovementOnXAxis(transform.position, movementSpeed, visionOrientation);
+            int visionOrientation = (int)
+                Mathf.Sign(playerTransform.transform.position.x - transform.position.x);
+
+            transform.position = movement.MovementOnXAxis(
+                transform.position,
+                movementSpeed,
+                visionOrientation
+            );
         }
     }
 }
