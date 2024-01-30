@@ -1,7 +1,6 @@
 using Domain.Enum;
 using Domain.Primitive;
 using Domain.Rules;
-using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 namespace Domain.Entities
@@ -22,9 +21,19 @@ namespace Domain.Entities
             base.Update();
 
             ///TODO: Futuramente maquina de estado.
-            if (CombatRules.CanSeePlayer(playerTransform, transform))
+            if (!CombatRules.CanHitPlayer(playerTransform, transform) && CombatRules.CanSeePlayer(playerTransform, transform))
             {
                 OnChasingPlayer();
+            }
+            if (CombatRules.CanHitPlayer(playerTransform, transform))
+            {
+                Debug.Log("Enemy " + gameObject.name + " can hit Player");
+                isAttacking = true;
+            }
+            if (CombatRules.CanDoDamage(playerTransform.gameObject.layer, gameObject.layer, isAttacking))
+            {
+                RecivieDamage(playerTransform.gameObject.GetComponent<SubjectA>());
+                isAttacking = !isAttacking;
             }
         }
 
