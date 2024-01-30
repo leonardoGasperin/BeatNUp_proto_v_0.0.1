@@ -33,7 +33,7 @@ namespace Domain.Primitive
             }
         }
 
-        public void RecivieDamage(Character target)
+        public void DoDamage(Character target)
         {
             if (target != null && target.isLive)
             {

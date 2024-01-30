@@ -48,7 +48,7 @@ namespace Domain.Entities
             {
                 isAttacking = false;
                 isDesingage = true;
-                RecivieDamage(playerTransform.gameObject.GetComponent<SubjectA>());
+                DoDamage(playerTransform.gameObject.GetComponent<SubjectA>());
             }
             if (CombatRules.IsStillDesingagePlayer(playerTransform, transform, isDesingage))
             {
