@@ -22,7 +22,7 @@ namespace Domain.Primitive
             movement = new MovementRepository();
         }
 
-        void Update()
+        protected virtual void Update()
         {
             if (isLive && healthPoint <= 0)
             {
@@ -33,22 +33,12 @@ namespace Domain.Primitive
             }
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
+        public void DoDamage(Character target)
         {
-            var objectCollisionLayer = collision.gameObject.layer;
-
-            if (CombatRules.CanDoDamage(objectCollisionLayer, gameObject.layer, isAttacking))
-            {
-                RecivieDamage(collision.gameObject.GetComponent<Character>());
-            }
-        }
-
-        private void RecivieDamage(Character target)
-        {
-            if (target != null && target.isLive && isAttacking)
+            if (target != null && target.isLive)
             {
                 target.healthPoint = target.combat.TakeDamage(target.healthPoint, damage);
-                isAttacking = !isAttacking;
+                Debug.Log(target.gameObject.name + " recivied DMG: " + damage);
             }
         }
     }
