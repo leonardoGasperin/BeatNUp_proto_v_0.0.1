@@ -38,7 +38,7 @@ namespace Domain.Primitive
             if (target != null && target.isLive)
             {
                 target.healthPoint = target.combat.TakeDamage(target.healthPoint, damage);
-                Debug.Log(gameObject.name + " recivied DMG: " + damage);
+                Debug.Log(target.gameObject.name + " recivied DMG: " + damage);
             }
         }
     }
