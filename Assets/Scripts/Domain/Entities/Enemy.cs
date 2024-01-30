@@ -8,6 +8,7 @@ namespace Domain.Entities
     public class Enemy : Character
     {
         private Transform playerTransform;
+        private bool isDesingage;
         public EnemyType enemyType;
 
         protected override void Start()
@@ -21,26 +22,50 @@ namespace Domain.Entities
             base.Update();
 
             ///TODO: Futuramente maquina de estado.
-            if (!CombatRules.CanHitPlayer(playerTransform, transform) && CombatRules.CanSeePlayer(playerTransform, transform))
+            if (
+                !CombatRules.IsStillDesingagePlayer(playerTransform, transform, isDesingage)
+                && CombatRules.CanSeePlayer(playerTransform, transform)
+            )
             {
                 OnChasingPlayer();
             }
-            if (CombatRules.CanHitPlayer(playerTransform, transform))
+            if (
+                CombatRules.CanHitPlayer(playerTransform.gameObject.layer, transform)
+                && !CombatRules.IsStillDesingagePlayer(playerTransform, transform, isDesingage)
+            )
             {
                 Debug.Log("Enemy " + gameObject.name + " can hit Player");
                 isAttacking = true;
             }
-            if (CombatRules.CanDoDamage(playerTransform.gameObject.layer, gameObject.layer, isAttacking))
+            if (
+                !isDesingage
+                && CombatRules.CanDoDamage(
+                    playerTransform.gameObject.layer,
+                    gameObject.layer,
+                    isAttacking
+                )
+            )
             {
+                isAttacking = false;
+                isDesingage = true;
                 RecivieDamage(playerTransform.gameObject.GetComponent<SubjectA>());
-                isAttacking = !isAttacking;
+            }
+            if (CombatRules.IsStillDesingagePlayer(playerTransform, transform, isDesingage))
+            {
+                OnChasingPlayer(-1);
+                isDesingage = CombatRules.IsStillDesingagePlayer(
+                    playerTransform,
+                    transform,
+                    isDesingage
+                );
             }
         }
 
-        private void OnChasingPlayer()
+        private void OnChasingPlayer(int desingage = 1)
         {
-            int visionOrientation = (int)
-                Mathf.Sign(playerTransform.transform.position.x - transform.position.x);
+            int visionOrientation =
+                (int)Mathf.Sign(playerTransform.transform.position.x - transform.position.x)
+                * desingage;
 
             transform.position = movement.MovementOnXAxis(
                 transform.position,
