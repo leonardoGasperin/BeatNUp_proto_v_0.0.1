@@ -33,22 +33,11 @@ namespace Domain.Primitive
             }
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            var objectCollisionLayer = collision.gameObject.layer;
-
-            if (CombatRules.CanDoDamage(objectCollisionLayer, gameObject.layer, isAttacking))
-            {
-                RecivieDamage(collision.gameObject.GetComponent<Character>());
-            }
-        }
-
-        private void RecivieDamage(Character target)
+        public void RecivieDamage(Character target)
         {
             if (target != null && target.isLive && isAttacking)
             {
                 target.healthPoint = target.combat.TakeDamage(target.healthPoint, damage);
-                isAttacking = !isAttacking;
             }
         }
     }

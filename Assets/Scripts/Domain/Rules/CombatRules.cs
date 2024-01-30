@@ -24,5 +24,20 @@ namespace Domain.Rules
 
             return hit.collider != null && hit.collider.gameObject.layer == targetLayer;
         }
+
+        public static bool CanHitPlayer(Transform targetPosition, Transform selfPosition)
+        {
+            LayerMask targetLayer = targetPosition.gameObject.layer;
+            int layerMask = 1 << targetLayer;
+            RaycastHit2D hit = Physics2D.Raycast(
+                selfPosition.position,
+                selfPosition.right,
+                1f,
+                layerMask
+            );
+            Debug.DrawLine(selfPosition.position, selfPosition.position + selfPosition.right, Color.blue);
+            
+            return hit.collider != null && hit.collider.gameObject.layer == targetLayer;
+        }
     }
 }
