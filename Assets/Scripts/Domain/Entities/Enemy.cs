@@ -8,7 +8,8 @@ namespace Domain.Entities
     public class Enemy : Character
     {
         private Transform playerTransform;
-        private bool isDesingage;
+        private bool isDisengage;
+        public bool isPermitedJump;
         public EnemyType enemyType;
 
         protected override void Start()
@@ -21,9 +22,9 @@ namespace Domain.Entities
         {
             base.Update();
 
-            ///TODO: Futuramente maquina de estado.
+            ///TODO: Refatorar.
             if (
-                !CombatRules.IsStillDesingagePlayer(playerTransform, transform, isDesingage)
+                !CombatRules.IsStillDesingagePlayer(playerTransform, transform, isDisengage)
                 && CombatRules.CanSeePlayer(playerTransform, transform)
             )
             {
@@ -31,14 +32,14 @@ namespace Domain.Entities
             }
             if (
                 CombatRules.CanHitPlayer(playerTransform.gameObject.layer, transform)
-                && !CombatRules.IsStillDesingagePlayer(playerTransform, transform, isDesingage)
+                && !CombatRules.IsStillDesingagePlayer(playerTransform, transform, isDisengage)
             )
             {
                 Debug.Log("Enemy " + gameObject.name + " can hit Player");
                 isAttacking = true;
             }
             if (
-                !isDesingage
+                !isDisengage
                 && CombatRules.CanDoDamage(
                     playerTransform.gameObject.layer,
                     gameObject.layer,
@@ -47,22 +48,28 @@ namespace Domain.Entities
             )
             {
                 isAttacking = false;
-                isDesingage = true;
+                isDisengage = true;
                 DoDamage(playerTransform.gameObject.GetComponent<SubjectA>());
             }
-            if (CombatRules.IsStillDesingagePlayer(playerTransform, transform, isDesingage))
+            if (CombatRules.IsStillDesingagePlayer(playerTransform, transform, isDisengage))
             {
                 OnChasingPlayer(-1);
-                isDesingage = CombatRules.IsStillDesingagePlayer(
+                isDisengage = CombatRules.IsStillDesingagePlayer(
                     playerTransform,
                     transform,
-                    isDesingage
+                    isDisengage
                 );
+            }
+            if (isPermitedJump && canJump && isGrounded)
+            {
+                movement.Jump(rigbody2D, transform.position, jumpForce);
+                isPermitedJump = false;
             }
         }
 
         private void OnChasingPlayer(int desingage = 1)
         {
+            ///TODO: Refatorar.
             int visionOrientation =
                 (int)Mathf.Sign(playerTransform.transform.position.x - transform.position.x)
                 * desingage;
