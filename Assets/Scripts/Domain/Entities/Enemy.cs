@@ -60,7 +60,7 @@ namespace Domain.Entities
                     isDisengage
                 );
             }
-            if(isPermitedJump && canJump && isGrounded)
+            if (isPermitedJump && canJump && isGrounded)
             {
                 movement.Jump(rigbody2D, transform.position, jumpForce);
                 isPermitedJump = false;
