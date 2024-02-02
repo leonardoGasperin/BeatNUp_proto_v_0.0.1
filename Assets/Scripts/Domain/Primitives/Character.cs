@@ -9,15 +9,20 @@ namespace Domain.Primitive
     {
         public ICombatRepository combat;
         public IMovementRepository movement;
+        public Rigidbody2D rigbody2D;
         public int level;
         public int healthPoint;
         public int damage;
         public float movementSpeed;
+        public float jumpForce;
         public bool isLive;
         public bool isAttacking;
+        public bool isGrounded;
+        public bool canJump;
 
         protected virtual void Start()
         {
+            rigbody2D = gameObject.GetComponent<Rigidbody2D>();
             combat = new CombatRepository();
             movement = new MovementRepository();
         }
@@ -30,6 +35,24 @@ namespace Domain.Primitive
                 isLive = false;
                 Debug.Log("HP " + gameObject.name + ": " + healthPoint);
                 Debug.Log(gameObject.name + " is live: " + isLive);
+            }
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+            {
+                isGrounded = true;
+                canJump = true;
+            }
+        }
+
+        private void OnCollisionExit2D(Collision2D collision)
+        {
+            if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+            {
+                isGrounded = false;
+                canJump = false;
             }
         }
 
