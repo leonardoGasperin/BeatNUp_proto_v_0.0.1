@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1311367692246030306}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.52, y: 3.76, z: 0}
+  m_LocalPosition: {x: 10.5, y: 2.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -47,12 +47,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d04cc1892e0d0514abe3515e3aeb6835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rigbody2D: {fileID: 0}
   level: 1
   healthPoint: 100
   damage: 15
   movementSpeed: 1
+  jumpForce: 500
   isLive: 1
   isAttacking: 0
+  isGrounded: 0
+  canJump: 0
+  isPermitedJump: 0
   enemyType: 1
 --- !u!50 &2148997644868943111
 Rigidbody2D:
@@ -69,7 +74,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 2
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -80,7 +85,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &3651547747478076748
 BoxCollider2D:
   m_ObjectHideFlags: 0
