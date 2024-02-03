@@ -1,6 +1,7 @@
 using Domain.Enum;
 using Domain.Primitive;
 using Domain.Rules;
+using TMPro;
 using UnityEngine;
 
 namespace Domain.Entities
@@ -20,6 +21,7 @@ namespace Domain.Entities
 
         private void FixedUpdate()
         {
+            Vector2 directionToPlayer = playerTransform.position - transform.position;
             ///TODO: Refatorar.
             if (
                 !CombatRules.IsStillDesingagePlayer(playerTransform, transform, isDisengage)
@@ -29,7 +31,7 @@ namespace Domain.Entities
                 OnChasingPlayer();
             }
             if (
-                CombatRules.CanHitPlayer(playerTransform.gameObject.layer, transform)
+                CombatRules.CanHitPlayer(playerTransform.gameObject.layer, directionToPlayer, transform)
                 && !CombatRules.IsStillDesingagePlayer(playerTransform, transform, isDisengage)
             )
             {
@@ -65,6 +67,7 @@ namespace Domain.Entities
             }
         }
 
+        ///TODO: Refatorar.
         private void OnChasingPlayer(int desingage = 1)
         {
             ///TODO: Refatorar.
