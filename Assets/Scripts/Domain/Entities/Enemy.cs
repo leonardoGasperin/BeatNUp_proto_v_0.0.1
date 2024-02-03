@@ -30,8 +30,11 @@ namespace Domain.Entities
                 OnChasingPlayer();
             }
             if (
-                CombatRules.CanHitPlayer(playerTransform.gameObject.layer, directionToPlayer, transform)
-                && !CombatRules.IsStillDesingagePlayer(playerTransform, transform, isDisengage)
+                CombatRules.CanHitPlayer(
+                    playerTransform.gameObject.layer,
+                    directionToPlayer,
+                    transform
+                ) && !CombatRules.IsStillDesingagePlayer(playerTransform, transform, isDisengage)
             )
             {
                 Debug.Log("Enemy " + gameObject.name + " can hit Player");

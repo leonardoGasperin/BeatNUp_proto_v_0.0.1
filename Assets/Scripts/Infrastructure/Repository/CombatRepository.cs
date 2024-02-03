@@ -21,7 +21,7 @@ namespace Infracstructure.Repository
                 layerMask
             );
 
-            if(hit.collider != null)
+            if (hit.collider != null)
             {
                 return hit.collider.gameObject.GetComponent<Character>();
             }

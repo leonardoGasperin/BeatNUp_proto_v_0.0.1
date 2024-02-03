@@ -19,13 +19,21 @@ namespace Domain.Entities
         {
             if (Input.GetButton("Horizontal"))
             {
-                transform.position = player.movement.MovementOnXAxis(transform.position, player.movementSpeed, (int)Input.GetAxisRaw("Horizontal"));
+                transform.position = player.movement.MovementOnXAxis(
+                    transform.position,
+                    player.movementSpeed,
+                    (int)Input.GetAxisRaw("Horizontal")
+                );
             }
         }
 
         private void Update()
         {
-            canAttack = CombatRules.CanHitPlayer(LayerMask.NameToLayer("Enemy"), transform.right, transform);
+            canAttack = CombatRules.CanHitPlayer(
+                LayerMask.NameToLayer("Enemy"),
+                transform.right,
+                transform
+            );
 
             if (Input.GetButtonDown("Jump") && player.canJump && player.isGrounded)
             {
@@ -33,7 +41,10 @@ namespace Domain.Entities
             }
             if (canAttack && Input.GetButtonDown("Fire1"))
             {
-                enemyTarget = player.combat.GetPlayerEnemyTarget(LayerMask.NameToLayer("Enemy"), transform);
+                enemyTarget = player.combat.GetPlayerEnemyTarget(
+                    LayerMask.NameToLayer("Enemy"),
+                    transform
+                );
                 if (enemyTarget.isLive)
                 {
                     player.DoDamage(enemyTarget);

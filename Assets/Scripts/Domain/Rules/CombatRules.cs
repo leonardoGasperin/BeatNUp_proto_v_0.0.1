@@ -34,7 +34,11 @@ namespace Domain.Rules
             return hit.collider != null && hit.collider.gameObject.layer == targetLayer;
         }
 
-        public static bool CanHitPlayer(LayerMask targetLayer, Vector2 rayDirection, Transform selfPosition)
+        public static bool CanHitPlayer(
+            LayerMask targetLayer,
+            Vector2 rayDirection,
+            Transform selfPosition
+        )
         {
             int layerMask = 1 << targetLayer;
             RaycastHit2D hit = Physics2D.Raycast(
