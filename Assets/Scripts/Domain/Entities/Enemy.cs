@@ -18,10 +18,8 @@ namespace Domain.Entities
             playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         }
 
-        protected override void Update()
+        private void FixedUpdate()
         {
-            base.Update();
-
             ///TODO: Refatorar.
             if (
                 !CombatRules.IsStillDesingagePlayer(playerTransform, transform, isDisengage)
