@@ -6,13 +6,13 @@ namespace Domain.Entities
 {
     public sealed class PlayerController : MonoBehaviour
     {
-        private SubjectA player;
+        private Player player;
         private Character enemyTarget;
         private bool canAttack;
 
         private void Start()
         {
-            player = gameObject.GetComponent<SubjectA>();
+            player = gameObject.GetComponent<Player>();
         }
 
         private void FixedUpdate()
