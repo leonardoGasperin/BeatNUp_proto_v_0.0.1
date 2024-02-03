@@ -10,11 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1552473799539307043}
   - component: {fileID: 4227907685816061034}
-  - component: {fileID: 145599187911789305}
+  - component: {fileID: 2429181355653099283}
+  - component: {fileID: 2546124154081864585}
   - component: {fileID: 9060746208129772010}
   - component: {fileID: 2922778449778227311}
   m_Layer: 6
-  m_Name: SubjectA
+  m_Name: SubjectPlayer
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,7 +88,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &145599187911789305
+--- !u!114 &2429181355653099283
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,19 +97,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 7614024698679179187}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29643c702a4d760478b3b6b7e2256124, type: 3}
+  m_Script: {fileID: 11500000, guid: f9cf91cca36ceaa4dbf175d0c001c3c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rigbody2D: {fileID: 0}
-  level: 1
-  healthPoint: 25
+  level: 0
+  healthPoint: 250
   damage: 20
-  movementSpeed: 1
+  movementSpeed: 5
   jumpForce: 500
   isLive: 1
   isAttacking: 0
   isGrounded: 0
   canJump: 0
+--- !u!114 &2546124154081864585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7614024698679179187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ff48451e7e7e91409ce0f6083baff5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!61 &9060746208129772010
 BoxCollider2D:
   m_ObjectHideFlags: 0

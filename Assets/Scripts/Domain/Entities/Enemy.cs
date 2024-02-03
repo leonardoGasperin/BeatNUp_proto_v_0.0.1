@@ -51,7 +51,7 @@ namespace Domain.Entities
             {
                 isAttacking = false;
                 isDisengage = true;
-                DoDamage(playerTransform.gameObject.GetComponent<SubjectA>());
+                DoDamage(playerTransform.gameObject.GetComponent<Character>());
             }
             if (CombatRules.IsStillDesingagePlayer(playerTransform, transform, isDisengage))
             {
