@@ -1,7 +1,6 @@
 using Domain.Enum;
 using Domain.Primitive;
 using Domain.Rules;
-using TMPro;
 using UnityEngine;
 
 namespace Domain.Entities
