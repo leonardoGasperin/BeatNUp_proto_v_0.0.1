@@ -18,10 +18,9 @@ namespace Domain.Entities
             playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         }
 
-        protected override void Update()
+        private void FixedUpdate()
         {
-            base.Update();
-
+            Vector2 directionToPlayer = playerTransform.position - transform.position;
             ///TODO: Refatorar.
             if (
                 !CombatRules.IsStillDesingagePlayer(playerTransform, transform, isDisengage)
@@ -31,8 +30,11 @@ namespace Domain.Entities
                 OnChasingPlayer();
             }
             if (
-                CombatRules.CanHitPlayer(playerTransform.gameObject.layer, transform)
-                && !CombatRules.IsStillDesingagePlayer(playerTransform, transform, isDisengage)
+                CombatRules.CanHitPlayer(
+                    playerTransform.gameObject.layer,
+                    directionToPlayer,
+                    transform
+                ) && !CombatRules.IsStillDesingagePlayer(playerTransform, transform, isDisengage)
             )
             {
                 Debug.Log("Enemy " + gameObject.name + " can hit Player");
@@ -67,6 +69,7 @@ namespace Domain.Entities
             }
         }
 
+        ///TODO: Refatorar.
         private void OnChasingPlayer(int desingage = 1)
         {
             ///TODO: Refatorar.

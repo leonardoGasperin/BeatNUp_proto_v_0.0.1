@@ -12,6 +12,7 @@ namespace Domain.Rules
             )
             && isAttacking;
 
+        ///TODO: refatorar tudo separar raycast das regras de combate
         public static bool CanSeePlayer(Transform targetPosition, Transform selfPosition)
         {
             LayerMask targetLayer = targetPosition.gameObject.layer;
@@ -33,18 +34,22 @@ namespace Domain.Rules
             return hit.collider != null && hit.collider.gameObject.layer == targetLayer;
         }
 
-        public static bool CanHitPlayer(LayerMask targetLayer, Transform selfPosition)
+        public static bool CanHitPlayer(
+            LayerMask targetLayer,
+            Vector2 rayDirection,
+            Transform selfPosition
+        )
         {
             int layerMask = 1 << targetLayer;
             RaycastHit2D hit = Physics2D.Raycast(
                 selfPosition.position,
-                selfPosition.right,
+                rayDirection,
                 1f,
                 layerMask
             );
             Debug.DrawLine(
                 selfPosition.position,
-                selfPosition.position + selfPosition.right,
+                (Vector2)selfPosition.position + rayDirection.normalized,
                 Color.blue
             );
 
