@@ -1,29 +1,43 @@
-﻿using UnityEngine;
+﻿using Domain.Primitive;
+using Domain.Rules;
+using UnityEngine;
 
 namespace Domain.Entities
 {
     public sealed class PlayerController : MonoBehaviour
     {
-        public SubjectA subjectA;
+        private SubjectA player;
+        private Character enemyTarget;
+        private bool canAttack;
 
         private void Start()
         {
-            subjectA = gameObject.GetComponent<SubjectA>();
+            player = gameObject.GetComponent<SubjectA>();
         }
 
         private void FixedUpdate()
         {
             if (Input.GetButton("Horizontal"))
             {
-                transform.position = subjectA.movement.MovementOnXAxis(transform.position, subjectA.movementSpeed, (int)Input.GetAxisRaw("Horizontal"));
+                transform.position = player.movement.MovementOnXAxis(transform.position, player.movementSpeed, (int)Input.GetAxisRaw("Horizontal"));
             }
         }
 
         private void Update()
         {
-            if (Input.GetButtonDown("Jump") && subjectA.canJump && subjectA.isGrounded)
+            canAttack = CombatRules.CanHitPlayer(LayerMask.NameToLayer("Enemy"), transform.right, transform);
+
+            if (Input.GetButtonDown("Jump") && player.canJump && player.isGrounded)
             {
-                subjectA.movement.Jump(subjectA.rigbody2D, transform.position, subjectA.jumpForce);
+                player.movement.Jump(player.rigbody2D, transform.position, player.jumpForce);
+            }
+            if (canAttack && Input.GetButtonDown("Fire1"))
+            {
+                enemyTarget = player.combat.GetPlayerEnemyTarget(LayerMask.NameToLayer("Enemy"), transform);
+                if (enemyTarget.isLive)
+                {
+                    player.DoDamage(enemyTarget);
+                }
             }
         }
     }
