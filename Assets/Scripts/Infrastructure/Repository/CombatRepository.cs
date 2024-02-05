@@ -11,16 +11,8 @@ namespace Infracstructure.Repository
             return healthPoint - dmg;
         }
 
-        public Character GetPlayerEnemyTarget(LayerMask targetLayer, Transform selfPosition)
+        public Character GetPlayerEnemyTarget(RaycastHit2D hit)
         {
-            int layerMask = 1 << targetLayer;
-            RaycastHit2D hit = Physics2D.Raycast(
-                selfPosition.position,
-                selfPosition.right,
-                1f,
-                layerMask
-            );
-
             if (hit.collider != null)
             {
                 return hit.collider.gameObject.GetComponent<Character>();
