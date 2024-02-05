@@ -18,6 +18,7 @@ namespace Domain.Primitive
         public bool isAttacking;
         public bool isGrounded;
         public bool canJump;
+        public bool isDebugRaycast;
 
         protected virtual void Start()
         {
