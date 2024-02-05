@@ -36,14 +36,10 @@ namespace Domain.Entities
             if (
                 !CombatRules.IsEnemyStillDesingagePlayer(desingageHit, isDisengage, playerLayer)
                 && CombatRules.RaycastHit(visionHit, playerLayer)
-)
+            )
             {
                 isDisengage = false;
-                movement.MovementOnXAxis(
-                    transform,
-                    movementSpeed,
-                    EnemyVisionOrientation()
-                );
+                movement.MovementOnXAxis(transform, movementSpeed, EnemyVisionOrientation());
             }
             if (
                 CombatRules.RaycastHit(damageRay, playerLayer)
@@ -55,11 +51,7 @@ namespace Domain.Entities
             }
             if (CombatRules.IsEnemyStillDesingagePlayer(desingageHit, isDisengage, playerLayer))
             {
-                movement.MovementOnXAxis(
-                    transform,
-                    movementSpeed,
-                    EnemyVisionOrientation(-1)
-                );
+                movement.MovementOnXAxis(transform, movementSpeed, EnemyVisionOrientation(-1));
             }
             if (isPermitedJump && canJump && isGrounded)
             {
@@ -75,17 +67,26 @@ namespace Domain.Entities
             }
         }
 
-        private Vector2 PlayerDirection() =>
-            playerTransform.position - transform.position;
+        private Vector2 PlayerDirection() => playerTransform.position - transform.position;
 
         private int EnemyVisionOrientation(int backstep = 1) =>
-            (int)Mathf.Sign(playerTransform.transform.position.x - transform.position.x)
-                * backstep;
+            (int)Mathf.Sign(playerTransform.transform.position.x - transform.position.x) * backstep;
 
         private RaycastHit2D CreateEnemyRaycast(float size, Vector2 playerDirection) =>
             RayCastUtillity.GetHit(transform, playerDirection, size, 1 << playerLayer);
 
-        private void DrawRaycast(Vector2 playerDirection, float size, Color color, float debugPosition = 0) =>
-            RayCastUtillity.DebugGetHitRaycast(transform.position, playerDirection, size, debugPosition, color);
+        private void DrawRaycast(
+            Vector2 playerDirection,
+            float size,
+            Color color,
+            float debugPosition = 0
+        ) =>
+            RayCastUtillity.DebugGetHitRaycast(
+                transform.position,
+                playerDirection,
+                size,
+                debugPosition,
+                color
+            );
     }
 }

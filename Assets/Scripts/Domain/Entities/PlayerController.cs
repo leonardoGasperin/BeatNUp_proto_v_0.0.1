@@ -1,7 +1,7 @@
-﻿using Domain.Primitive;
+﻿using System.Drawing;
+using Domain.Primitive;
 using Domain.Rules;
 using Infrastructure.Misc;
-using System.Drawing;
 using UnityEngine;
 
 namespace Domain.Entities
@@ -32,7 +32,12 @@ namespace Domain.Entities
 
         private void Update()
         {
-            damageRay = RayCastUtillity.GetHit(transform, transform.position + transform.right, 1f, 1 << LayerMask.NameToLayer("Enemy"));
+            damageRay = RayCastUtillity.GetHit(
+                transform,
+                transform.position + transform.right,
+                1f,
+                1 << LayerMask.NameToLayer("Enemy")
+            );
             canAttack = CombatRules.RaycastHit(damageRay, LayerMask.NameToLayer("Enemy"));
 
             if (Input.GetButtonDown("Jump") && player.canJump && player.isGrounded)
