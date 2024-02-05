@@ -18,8 +18,9 @@ namespace Domain.Entities
             playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         }
 
-        private void FixedUpdate()
+        protected override void Update()
         {
+            base.Update();
             Vector2 directionToPlayer = playerTransform.position - transform.position;
             ///TODO: Refatorar.
             if (
@@ -27,7 +28,8 @@ namespace Domain.Entities
                 && CombatRules.CanSeePlayer(playerTransform, transform)
             )
             {
-                OnChasingPlayer();
+                isDisengage = false;
+                OnChasingPlayer(EnemyVisionOrientation());
             }
             if (
                 CombatRules.CanHitPlayer(
@@ -55,12 +57,8 @@ namespace Domain.Entities
             }
             if (CombatRules.IsStillDesingagePlayer(playerTransform, transform, isDisengage))
             {
-                OnChasingPlayer(-1);
-                isDisengage = CombatRules.IsStillDesingagePlayer(
-                    playerTransform,
-                    transform,
-                    isDisengage
-                );
+                isDisengage = true;
+                OnChasingPlayer(EnemyVisionOrientation(- 1));
             }
             if (isPermitedJump && canJump && isGrounded)
             {
@@ -69,19 +67,19 @@ namespace Domain.Entities
             }
         }
 
-        ///TODO: Refatorar.
-        private void OnChasingPlayer(int desingage = 1)
+        private void OnChasingPlayer(int orientations)
         {
-            ///TODO: Refatorar.
-            int visionOrientation =
-                (int)Mathf.Sign(playerTransform.transform.position.x - transform.position.x)
-                * desingage;
-
             transform.position = movement.MovementOnXAxis(
                 transform.position,
                 movementSpeed,
-                visionOrientation
+                orientations
             );
+        }
+
+        private int EnemyVisionOrientation(int backstep = 1)
+        {
+            return (int)Mathf.Sign(playerTransform.transform.position.x - transform.position.x)
+                * backstep;
         }
     }
 }
