@@ -29,7 +29,11 @@ namespace Domain.Entities
             )
             {
                 isDisengage = false;
-                OnChasingPlayer(EnemyVisionOrientation());
+                movement.MovementOnXAxis(
+                    transform,
+                    movementSpeed,
+                    EnemyVisionOrientation()
+                );
             }
             if (
                 CombatRules.CanHitPlayer(
@@ -58,22 +62,18 @@ namespace Domain.Entities
             if (CombatRules.IsStillDesingagePlayer(playerTransform, transform, isDisengage))
             {
                 isDisengage = true;
-                OnChasingPlayer(EnemyVisionOrientation(- 1));
+
+                movement.MovementOnXAxis(
+                    transform,
+                    movementSpeed,
+                    EnemyVisionOrientation(-1)
+                );
             }
             if (isPermitedJump && canJump && isGrounded)
             {
                 movement.Jump(rigbody2D, transform.position, jumpForce);
                 isPermitedJump = false;
             }
-        }
-
-        private void OnChasingPlayer(int orientations)
-        {
-            transform.position = movement.MovementOnXAxis(
-                transform.position,
-                movementSpeed,
-                orientations
-            );
         }
 
         private int EnemyVisionOrientation(int backstep = 1)
