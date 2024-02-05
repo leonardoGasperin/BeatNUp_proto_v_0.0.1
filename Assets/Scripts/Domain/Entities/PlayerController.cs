@@ -1,5 +1,7 @@
-﻿using Domain.Primitive;
+﻿using System.Drawing;
+using Domain.Primitive;
 using Domain.Rules;
+using Infrastructure.Misc;
 using UnityEngine;
 
 namespace Domain.Entities
@@ -9,6 +11,7 @@ namespace Domain.Entities
         private Player player;
         private Character enemyTarget;
         private bool canAttack;
+        private RaycastHit2D damageRay;
 
         private void Start()
         {
@@ -19,8 +22,8 @@ namespace Domain.Entities
         {
             if (Input.GetButton("Horizontal"))
             {
-                transform.position = player.movement.MovementOnXAxis(
-                    transform.position,
+                player.movement.MovementOnXAxis(
+                    transform,
                     player.movementSpeed,
                     (int)Input.GetAxisRaw("Horizontal")
                 );
@@ -29,11 +32,13 @@ namespace Domain.Entities
 
         private void Update()
         {
-            canAttack = CombatRules.CanHitPlayer(
-                LayerMask.NameToLayer("Enemy"),
-                transform.right,
-                transform
+            damageRay = RayCastUtillity.GetHit(
+                transform,
+                transform.position + transform.right,
+                1f,
+                1 << LayerMask.NameToLayer("Enemy")
             );
+            canAttack = CombatRules.RaycastHit(damageRay, LayerMask.NameToLayer("Enemy"));
 
             if (Input.GetButtonDown("Jump") && player.canJump && player.isGrounded)
             {
@@ -41,14 +46,9 @@ namespace Domain.Entities
             }
             if (canAttack && Input.GetButtonDown("Fire1"))
             {
-                enemyTarget = player.combat.GetPlayerEnemyTarget(
-                    LayerMask.NameToLayer("Enemy"),
-                    transform
-                );
-                if (enemyTarget.isLive)
-                {
-                    player.DoDamage(enemyTarget);
-                }
+                enemyTarget = player.combat.GetPlayerEnemyTarget(damageRay);
+
+                player.DoDamage(enemyTarget);
             }
         }
     }
