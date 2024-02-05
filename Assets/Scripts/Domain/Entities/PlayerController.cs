@@ -19,8 +19,8 @@ namespace Domain.Entities
         {
             if (Input.GetButton("Horizontal"))
             {
-                transform.position = player.movement.MovementOnXAxis(
-                    transform.position,
+                player.movement.MovementOnXAxis(
+                    transform,
                     player.movementSpeed,
                     (int)Input.GetAxisRaw("Horizontal")
                 );

@@ -14,6 +14,6 @@ public class MoveSubject : Character
     protected override void Update()
     {
         base.Update();
-        me.transform.position = movement.MovementOnXAxis(me.transform.position, movementSpeed, 1);
+        movement.MovementOnXAxis(me.transform, movementSpeed, 1);
     }
 }
