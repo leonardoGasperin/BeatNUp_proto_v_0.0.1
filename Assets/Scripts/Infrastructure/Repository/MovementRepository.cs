@@ -5,7 +5,6 @@ namespace Infracstructure.Repository
 {
     public class MovementRepository : IMovementRepository
     {
-        ///TODO: refatorar
         public void MovementOnXAxis(Transform transformPosition, float speed, int direction)
         {
             transformPosition.Translate(Vector3.right * (speed * direction) * Time.deltaTime);
