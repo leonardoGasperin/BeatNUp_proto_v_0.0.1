@@ -1,6 +1,7 @@
 using Domain.Enum;
 using Domain.Primitive;
 using Domain.Rules;
+using Infrastructure.Misc;
 using UnityEngine;
 
 namespace Domain.Entities
@@ -8,7 +9,12 @@ namespace Domain.Entities
     public class Enemy : Character
     {
         private Transform playerTransform;
+        private int playerLayer;
         private bool isDisengage;
+        private RaycastHit2D visionHit;
+        private RaycastHit2D damageRay;
+        private RaycastHit2D desingageHit;
+
         public bool isPermitedJump;
         public EnemyType enemyType;
 
@@ -16,17 +22,21 @@ namespace Domain.Entities
         {
             base.Start();
             playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+            playerLayer = playerTransform.gameObject.layer;
         }
 
         protected override void Update()
         {
             base.Update();
-            Vector2 directionToPlayer = playerTransform.position - transform.position;
-            ///TODO: Refatorar.
+            var playerDirection = PlayerDirection();
+            visionHit = CreateEnemyRaycast(5f, playerDirection);
+            desingageHit = CreateEnemyRaycast(2.5f, playerDirection);
+            damageRay = CreateEnemyRaycast(1f, playerDirection);
+
             if (
-                !CombatRules.IsStillDesingagePlayer(playerTransform, transform, isDisengage)
-                && CombatRules.CanSeePlayer(playerTransform, transform)
-            )
+                !CombatRules.IsEnemyStillDesingagePlayer(desingageHit, isDisengage, playerLayer)
+                && CombatRules.RaycastHit(visionHit, playerLayer)
+)
             {
                 isDisengage = false;
                 movement.MovementOnXAxis(
@@ -36,33 +46,15 @@ namespace Domain.Entities
                 );
             }
             if (
-                CombatRules.CanHitPlayer(
-                    playerTransform.gameObject.layer,
-                    directionToPlayer,
-                    transform
-                ) && !CombatRules.IsStillDesingagePlayer(playerTransform, transform, isDisengage)
+                CombatRules.RaycastHit(damageRay, playerLayer)
+                && !CombatRules.IsEnemyStillDesingagePlayer(desingageHit, isDisengage, playerLayer)
             )
             {
-                Debug.Log("Enemy " + gameObject.name + " can hit Player");
-                isAttacking = true;
-            }
-            if (
-                !isDisengage
-                && CombatRules.CanDoDamage(
-                    playerTransform.gameObject.layer,
-                    gameObject.layer,
-                    isAttacking
-                )
-            )
-            {
-                isAttacking = false;
                 isDisengage = true;
                 DoDamage(playerTransform.gameObject.GetComponent<Character>());
             }
-            if (CombatRules.IsStillDesingagePlayer(playerTransform, transform, isDisengage))
+            if (CombatRules.IsEnemyStillDesingagePlayer(desingageHit, isDisengage, playerLayer))
             {
-                isDisengage = true;
-
                 movement.MovementOnXAxis(
                     transform,
                     movementSpeed,
@@ -74,12 +66,26 @@ namespace Domain.Entities
                 movement.Jump(rigbody2D, transform.position, jumpForce);
                 isPermitedJump = false;
             }
+
+            if (isDebugRaycast)
+            {
+                DrawRaycast(playerDirection, 5f, Color.red, 0.1f); //See player
+                DrawRaycast(playerDirection, 1f, Color.blue); //Hit player
+                DrawRaycast(playerDirection, 2.5f, Color.yellow, -0.1f); //Desingage player
+            }
         }
 
-        private int EnemyVisionOrientation(int backstep = 1)
-        {
-            return (int)Mathf.Sign(playerTransform.transform.position.x - transform.position.x)
+        private Vector2 PlayerDirection() =>
+            playerTransform.position - transform.position;
+
+        private int EnemyVisionOrientation(int backstep = 1) =>
+            (int)Mathf.Sign(playerTransform.transform.position.x - transform.position.x)
                 * backstep;
-        }
+
+        private RaycastHit2D CreateEnemyRaycast(float size, Vector2 playerDirection) =>
+            RayCastUtillity.GetHit(transform, playerDirection, size, 1 << playerLayer);
+
+        private void DrawRaycast(Vector2 playerDirection, float size, Color color, float debugPosition = 0) =>
+            RayCastUtillity.DebugGetHitRaycast(transform.position, playerDirection, size, debugPosition, color);
     }
 }
