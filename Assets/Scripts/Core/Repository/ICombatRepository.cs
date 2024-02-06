@@ -1,7 +1,7 @@
-using Domain.Primitive;
+using Core.Primitive;
 using UnityEngine;
 
-namespace Domain.Repository
+namespace Core.Repository
 {
     public interface ICombatRepository
     {

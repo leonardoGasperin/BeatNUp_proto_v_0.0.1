@@ -1,5 +1,5 @@
-using Domain.Primitive;
-using Domain.Repository;
+using Core.Primitive;
+using Core.Repository;
 using UnityEngine;
 
 namespace Infracstructure.Repository

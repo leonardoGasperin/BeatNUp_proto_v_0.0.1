@@ -1,8 +1,8 @@
-using Domain.Repository;
+using Core.Repository;
 using Infracstructure.Repository;
 using UnityEngine;
 
-namespace Domain.Primitive
+namespace Core.Primitive
 {
     public class Character : MonoBehaviour
     {

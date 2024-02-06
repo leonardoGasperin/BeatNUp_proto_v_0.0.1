@@ -1,4 +1,4 @@
-namespace Domain.Enum
+namespace Core.Enum
 {
     public enum EnemyType
     {

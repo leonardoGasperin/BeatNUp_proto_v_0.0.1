@@ -1,10 +1,10 @@
-using Domain.Enum;
-using Domain.Primitive;
-using Domain.Rules;
+using Core.Enum;
+using Core.Primitive;
+using Core.Rules;
 using Infrastructure.Misc;
 using UnityEngine;
 
-namespace Domain.Entities
+namespace Core.Entities
 {
     public class Enemy : Character
     {

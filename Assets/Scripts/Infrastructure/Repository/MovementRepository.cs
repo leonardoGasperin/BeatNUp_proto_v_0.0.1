@@ -1,4 +1,4 @@
-﻿using Domain.Repository;
+﻿using Core.Repository;
 using UnityEngine;
 
 namespace Infracstructure.Repository

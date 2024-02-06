@@ -1,10 +1,9 @@
-﻿using System.Drawing;
-using Domain.Primitive;
-using Domain.Rules;
+﻿using Core.Primitive;
+using Core.Rules;
 using Infrastructure.Misc;
 using UnityEngine;
 
-namespace Domain.Entities
+namespace Core.Entities
 {
     public sealed class PlayerController : MonoBehaviour
     {

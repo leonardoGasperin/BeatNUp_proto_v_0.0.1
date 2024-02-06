@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Domain.Repository
+namespace Core.Repository
 {
     public interface IMovementRepository
     {

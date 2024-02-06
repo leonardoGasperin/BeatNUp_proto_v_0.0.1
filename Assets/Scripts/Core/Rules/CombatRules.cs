@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Domain.Rules
+namespace Core.Rules
 {
     public static class CombatRules
     {
