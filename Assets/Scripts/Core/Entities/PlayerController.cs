@@ -31,7 +31,7 @@ namespace Core.Entities
 
         private void Update()
         {
-            damageRay = RayCastUtillity.GetHit(
+            damageRay = RayCastUtillity.GetRaycast(
                 transform,
                 transform.position + transform.right,
                 1f,

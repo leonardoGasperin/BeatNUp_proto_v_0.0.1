@@ -4,7 +4,7 @@ namespace Infrastructure.Misc
 {
     public static class RayCastUtillity
     {
-        public static RaycastHit2D GetHit(
+        public static RaycastHit2D GetRaycast(
             Transform selfPosition,
             Vector2 rayDirection,
             float raySize,

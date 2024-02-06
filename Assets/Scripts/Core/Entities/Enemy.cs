@@ -73,7 +73,7 @@ namespace Core.Entities
             (int)Mathf.Sign(playerTransform.transform.position.x - transform.position.x) * backstep;
 
         private RaycastHit2D CreateEnemyRaycast(float size, Vector2 playerDirection) =>
-            RayCastUtillity.GetHit(transform, playerDirection, size, 1 << playerLayer);
+            RayCastUtillity.GetRaycast(transform, playerDirection, size, 1 << playerLayer);
 
         private void DrawRaycast(
             Vector2 playerDirection,
