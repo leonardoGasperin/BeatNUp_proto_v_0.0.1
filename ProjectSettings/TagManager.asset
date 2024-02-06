@@ -3,12 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - JumpTrigger
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - CaseTest
   - Water
   - UI
   - Player
