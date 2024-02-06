@@ -15,7 +15,7 @@ namespace CaseTest.Movement
 
         protected void FixedUpdate()
         {
-            if(canWalk)
+            if (canWalk)
             {
                 movement.MovementOnXAxis(transform, movementSpeed, direction);
             }
@@ -23,7 +23,10 @@ namespace CaseTest.Movement
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if(collision.collider != null && collision.collider.gameObject.layer == LayerMask.NameToLayer("CaseTest"))
+            if (
+                collision.collider != null
+                && collision.collider.gameObject.layer == LayerMask.NameToLayer("CaseTest")
+            )
             {
                 direction *= -1;
             }
@@ -31,11 +34,10 @@ namespace CaseTest.Movement
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if(collision.CompareTag("JumpTrigger"))
+            if (collision.CompareTag("JumpTrigger"))
             {
                 movement.Jump(rigbody2D, transform.position, jumpForce);
             }
         }
     }
-
 }

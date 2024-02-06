@@ -6,7 +6,6 @@ namespace CaseTest.Movement
 {
     public class PlayerMovmentCase : Character
     {
-
         protected override void Start()
         {
             base.Start();
@@ -14,7 +13,6 @@ namespace CaseTest.Movement
 
         private void FixedUpdate()
         {
-            Debug.Log(Input.GetButton("Horizontal"));
             if (Input.GetButton("Horizontal"))
             {
                 movement.MovementOnXAxis(
