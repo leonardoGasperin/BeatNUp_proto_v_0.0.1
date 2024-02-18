@@ -49,6 +49,7 @@ namespace Core.Entities
 
                 player.DoDamage(enemyTarget);
             }
+            player.isBlocking = Input.GetButton("Fire2");
         }
     }
 }
