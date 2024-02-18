@@ -20,5 +20,10 @@ namespace Infracstructure.Repository
 
             return null;
         }
+
+        public int BlockingAbsorbDamage(int damage, float rate)
+        {
+            return damage - (int)(damage * rate);
+        }
     }
 }
