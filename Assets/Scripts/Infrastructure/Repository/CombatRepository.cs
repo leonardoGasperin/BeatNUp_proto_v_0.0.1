@@ -1,5 +1,6 @@
 using Core.Primitive;
 using Core.Repository;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Infracstructure.Repository
@@ -19,6 +20,11 @@ namespace Infracstructure.Repository
             }
 
             return null;
+        }
+
+        public int BlockingAbsorbDamage(int damage, float rate)
+        {
+            return (int)(damage - (damage * rate));
         }
     }
 }

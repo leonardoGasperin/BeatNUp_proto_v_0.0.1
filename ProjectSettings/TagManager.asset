@@ -12,11 +12,11 @@ TagManager:
   - CaseTest
   - Water
   - UI
+  - Ground
   - Player
   - Enemy
   - Interable
   - Item
-  - Ground
   - 
   - 
   - 

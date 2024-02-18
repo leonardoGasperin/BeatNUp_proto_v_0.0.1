@@ -12,10 +12,14 @@ namespace Core.Primitive
         public int level;
         public int healthPoint;
         public int damage;
+
+        [Range(0f, 1f)]
+        public float blockingRate;
         public float movementSpeed;
         public float jumpForce;
         public bool isLive;
         public bool isAttacking;
+        public bool isBlocking;
         public bool isGrounded;
         public bool canJump;
         public bool isDebugRaycast;
@@ -58,10 +62,13 @@ namespace Core.Primitive
 
         public void DoDamage(Character target)
         {
+            var finalDamage = target.isBlocking
+                ? combat.BlockingAbsorbDamage(damage, target.blockingRate)
+                : damage;
             if (target != null && target.isLive)
             {
-                target.healthPoint = target.combat.TakeDamage(target.healthPoint, damage);
-                Debug.Log(target.gameObject.name + " recivied DMG: " + damage);
+                target.healthPoint = target.combat.TakeDamage(target.healthPoint, finalDamage);
+                Debug.Log(target.gameObject.name + " recivied DMG: " + finalDamage);
             }
         }
     }
