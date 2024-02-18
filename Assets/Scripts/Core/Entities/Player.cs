@@ -9,7 +9,7 @@ namespace Core.Entities
         protected override void Update()
         {
             base.Update();
-            if(isDebugRaycast)
+            if (isDebugRaycast)
             {
                 RayCastUtillity.DebugGetHitRaycast(
                     transform.position,

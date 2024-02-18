@@ -12,6 +12,7 @@ namespace Core.Primitive
         public int level;
         public int healthPoint;
         public int damage;
+
         [Range(0f, 1f)]
         public float blockingRate;
         public float movementSpeed;
@@ -61,7 +62,9 @@ namespace Core.Primitive
 
         public void DoDamage(Character target)
         {
-            var finalDamage = target.isBlocking ? combat.BlockingAbsorbDamage(damage, target.blockingRate) : damage;
+            var finalDamage = target.isBlocking
+                ? combat.BlockingAbsorbDamage(damage, target.blockingRate)
+                : damage;
             if (target != null && target.isLive)
             {
                 target.healthPoint = target.combat.TakeDamage(target.healthPoint, finalDamage);
