@@ -38,6 +38,7 @@ namespace Core.Entities
                 && CombatRules.RaycastHit(visionHit, playerLayer)
             )
             {
+                isBlocking = false;
                 isDisengage = false;
                 movement.MovementOnXAxis(transform, movementSpeed, EnemyVisionOrientation());
             }
@@ -51,6 +52,7 @@ namespace Core.Entities
             }
             if (CombatRules.IsEnemyStillDesingagePlayer(desingageHit, isDisengage, playerLayer))
             {
+                isBlocking = true;
                 movement.MovementOnXAxis(transform, movementSpeed, EnemyVisionOrientation(-1));
             }
             if (isPermitedJump && canJump && isGrounded)
