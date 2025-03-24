@@ -11,9 +11,9 @@ namespace Core.Entities
         private Transform playerTransform;
         private int playerLayer;
         private bool isDisengage;
-        private RaycastHit2D visionHit;
-        private RaycastHit2D damageRay;
-        private RaycastHit2D desingageHit;
+        private RaycastHit2D visionHit; //RED
+        private RaycastHit2D damageRay; //BLUE
+        private RaycastHit2D desingageHit; //YELLOW
 
         public bool isPermitedJump;
         public EnemyType enemyType;

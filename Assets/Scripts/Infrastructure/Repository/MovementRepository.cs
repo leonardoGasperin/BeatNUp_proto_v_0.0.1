@@ -12,7 +12,7 @@ namespace Infracstructure.Repository
 
         public void Jump(Rigidbody2D rigidbody2D, Vector2 objectPosition, float force)
         {
-            rigidbody2D.AddForce(new Vector2(rigidbody2D.velocity.x, force));
+            rigidbody2D.AddForce(new Vector2(rigidbody2D.linearVelocity.x, force));
         }
     }
 }
