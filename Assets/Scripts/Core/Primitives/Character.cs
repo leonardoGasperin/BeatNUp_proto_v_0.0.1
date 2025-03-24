@@ -1,5 +1,6 @@
-using Core.Repository;
-using Infracstructure.Repository;
+using Configuration;
+using Core.Contract;
+using Infracstructure.Handler;
 using UnityEngine;
 
 namespace Core.Primitive
@@ -24,11 +25,14 @@ namespace Core.Primitive
         public bool canJump;
         public bool isDebugRaycast;
 
+        private CollisionHandler collisionHandler;
+
         protected virtual void Start()
         {
             rigbody2D = gameObject.GetComponent<Rigidbody2D>();
-            combat = new CombatRepository();
-            movement = new MovementRepository();
+            collisionHandler = new CollisionHandler(this);
+            combat = ServiceLocator.Resolve<ICombatRepository>();
+            movement = ServiceLocator.Resolve<IMovementRepository>();
         }
 
         protected virtual void Update()
@@ -44,20 +48,12 @@ namespace Core.Primitive
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
-            {
-                isGrounded = true;
-                canJump = true;
-            }
+            collisionHandler.OnCollisionEnter2D(collision);
         }
 
         private void OnCollisionExit2D(Collision2D collision)
         {
-            if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
-            {
-                isGrounded = false;
-                canJump = false;
-            }
+            collisionHandler.OnCollisionExit2D(collision);
         }
 
         public void DoDamage(Character target)

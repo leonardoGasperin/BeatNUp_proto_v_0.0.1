@@ -1,6 +1,5 @@
 using Core.Primitive;
-using Core.Repository;
-using Unity.Mathematics;
+using Core.Contract;
 using UnityEngine;
 
 namespace Infracstructure.Repository

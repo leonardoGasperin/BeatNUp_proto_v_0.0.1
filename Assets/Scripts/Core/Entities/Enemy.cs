@@ -1,7 +1,7 @@
 using Core.Enum;
 using Core.Primitive;
-using Core.Rules;
-using Infrastructure.Misc;
+using Core.Rule;
+using Infrastructure.Utility;
 using UnityEngine;
 
 namespace Core.Entities
@@ -34,8 +34,8 @@ namespace Core.Entities
             damageRay = CreateEnemyRaycast(1f, playerDirection);
 
             if (
-                !CombatRules.IsEnemyStillDesingagePlayer(desingageHit, isDisengage, playerLayer)
-                && CombatRules.RaycastHit(visionHit, playerLayer)
+                !CombatRule.IsEnemyStillDesingagePlayer(desingageHit, isDisengage, playerLayer)
+                && CombatRule.RaycastHit(visionHit, playerLayer)
             )
             {
                 isBlocking = false;
@@ -43,14 +43,14 @@ namespace Core.Entities
                 movement.MovementOnXAxis(transform, movementSpeed, EnemyVisionOrientation());
             }
             if (
-                CombatRules.RaycastHit(damageRay, playerLayer)
-                && !CombatRules.IsEnemyStillDesingagePlayer(desingageHit, isDisengage, playerLayer)
+                CombatRule.RaycastHit(damageRay, playerLayer)
+                && !CombatRule.IsEnemyStillDesingagePlayer(desingageHit, isDisengage, playerLayer)
             )
             {
                 isDisengage = true;
                 DoDamage(playerTransform.gameObject.GetComponent<Character>());
             }
-            if (CombatRules.IsEnemyStillDesingagePlayer(desingageHit, isDisengage, playerLayer))
+            if (CombatRule.IsEnemyStillDesingagePlayer(desingageHit, isDisengage, playerLayer))
             {
                 isBlocking = true;
                 movement.MovementOnXAxis(transform, movementSpeed, EnemyVisionOrientation(-1));

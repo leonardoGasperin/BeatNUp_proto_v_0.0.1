@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Core.Repository
+namespace Core.Contract
 {
     public interface IMovementRepository
     {

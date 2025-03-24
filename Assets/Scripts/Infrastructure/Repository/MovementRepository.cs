@@ -1,4 +1,4 @@
-﻿using Core.Repository;
+﻿using Core.Contract;
 using UnityEngine;
 
 namespace Infracstructure.Repository

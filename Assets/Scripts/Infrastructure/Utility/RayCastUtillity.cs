@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Infrastructure.Misc
+namespace Infrastructure.Utility
 {
     public static class RayCastUtillity
     {

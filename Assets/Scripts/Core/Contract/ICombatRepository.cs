@@ -1,7 +1,7 @@
 using Core.Primitive;
 using UnityEngine;
 
-namespace Core.Repository
+namespace Core.Contract
 {
     public interface ICombatRepository
     {

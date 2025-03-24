@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace Core.Rules
+namespace Core.Rule
 {
-    public static class CombatRules
+    public static class CombatRule
     {
         public static bool RaycastHit(RaycastHit2D hit, int targetLayer) =>
             hit.collider != null && hit.collider.gameObject.layer == targetLayer;

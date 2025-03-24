@@ -1,6 +1,6 @@
 ﻿using Core.Primitive;
-using Core.Rules;
-using Infrastructure.Misc;
+using Core.Rule;
+using Infrastructure.Utility;
 using UnityEngine;
 
 namespace Core.Entities
@@ -44,7 +44,7 @@ namespace Core.Entities
                 1 << LayerMask.NameToLayer("Enemy")
             );
 
-            bool canAttack = CombatRules.RaycastHit(damageRay, LayerMask.NameToLayer("Enemy"));
+            bool canAttack = CombatRule.RaycastHit(damageRay, LayerMask.NameToLayer("Enemy"));
 
             if (canAttack)
             {
