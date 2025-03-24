@@ -33,6 +33,19 @@ namespace Core.Entities
             desingageHit = CreateEnemyRaycast(2.5f, playerDirection);
             damageRay = CreateEnemyRaycast(1f, playerDirection);
 
+            if (!isLive) return;
+
+            EnemyBehaviour();
+            if (isDebugRaycast)
+            {
+                DrawRaycast(playerDirection, 5f, Color.red, 0.1f); //See player
+                DrawRaycast(playerDirection, 1f, Color.blue); //Hit player
+                DrawRaycast(playerDirection, 2.5f, Color.yellow, -0.1f); //Desingage player
+            }
+        }
+
+        private void EnemyBehaviour()
+        {
             if (
                 !CombatRule.IsEnemyStillDesingagePlayer(desingageHit, isDisengage, playerLayer)
                 && CombatRule.RaycastHit(visionHit, playerLayer)
@@ -59,13 +72,6 @@ namespace Core.Entities
             {
                 movement.Jump(rigbody2D, transform.position, jumpForce);
                 isPermitedJump = false;
-            }
-
-            if (isDebugRaycast)
-            {
-                DrawRaycast(playerDirection, 5f, Color.red, 0.1f); //See player
-                DrawRaycast(playerDirection, 1f, Color.blue); //Hit player
-                DrawRaycast(playerDirection, 2.5f, Color.yellow, -0.1f); //Desingage player
             }
         }
 

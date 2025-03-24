@@ -58,14 +58,14 @@ namespace Core.Primitive
 
         public void DoDamage(Character target)
         {
+            if (target == null || !target.isLive || !this.isLive) return;
+
             var finalDamage = target.isBlocking
                 ? combat.BlockingAbsorbDamage(damage, target.blockingRate)
                 : damage;
-            if (target != null && target.isLive)
-            {
-                target.healthPoint = target.combat.TakeDamage(target.healthPoint, finalDamage);
-                Debug.Log(target.gameObject.name + " recivied DMG: " + finalDamage);
-            }
+
+            target.healthPoint = target.combat.TakeDamage(target.healthPoint, finalDamage);
+            Debug.Log(target.gameObject.name + " recivied DMG: " + finalDamage);
         }
     }
 }

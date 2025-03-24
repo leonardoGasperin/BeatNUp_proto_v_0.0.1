@@ -13,6 +13,8 @@ namespace Core.Entities
 
         private void FixedUpdate()
         {
+            if (player == null || !player.isLive) return;
+
             if (Input.GetButton("Horizontal"))
             {
                 player.MoveHorizontal((int)Input.GetAxisRaw("Horizontal"));
@@ -21,6 +23,8 @@ namespace Core.Entities
 
         private void Update()
         {
+            if (player == null || !player.isLive) return;
+
             if (Input.GetButtonDown("Jump"))
             {
                 player.TryJump();
