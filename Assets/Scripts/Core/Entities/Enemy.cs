@@ -38,11 +38,19 @@ namespace Core.Entities
             EnemyBehaviour();
             if (isDebugRaycast)
             {
-                DrawRaycast(playerDirection, 5f, Color.red, 0.1f); //See player
-                DrawRaycast(playerDirection, 1f, Color.blue); //Hit player
-                DrawRaycast(playerDirection, 2.5f, Color.yellow, -0.1f); //Desingage player
+                RayCastUtillity.DebugGetHitRaycast(transform.position, playerDirection, 5f, 0.1f, Color.red); //See player
+                RayCastUtillity.DebugGetHitRaycast(transform.position, playerDirection, 1f, 0, Color.blue); //Hit player
+                RayCastUtillity.DebugGetHitRaycast(transform.position, playerDirection, 2.5f, -0.1f, Color.yellow); //Desingage player
             }
         }
+
+        private Vector2 PlayerDirection() => playerTransform.position - transform.position;
+
+        private int EnemyVisionOrientation(int backstep = 1) =>
+            (int)Mathf.Sign(playerTransform.transform.position.x - transform.position.x) * backstep;
+
+        private RaycastHit2D CreateEnemyRaycast(float size, Vector2 playerDirection) =>
+            RayCastUtillity.GetRaycast(transform, playerDirection, size, 1 << playerLayer);
 
         private void EnemyBehaviour()
         {
@@ -74,27 +82,5 @@ namespace Core.Entities
                 isPermitedJump = false;
             }
         }
-
-        private Vector2 PlayerDirection() => playerTransform.position - transform.position;
-
-        private int EnemyVisionOrientation(int backstep = 1) =>
-            (int)Mathf.Sign(playerTransform.transform.position.x - transform.position.x) * backstep;
-
-        private RaycastHit2D CreateEnemyRaycast(float size, Vector2 playerDirection) =>
-            RayCastUtillity.GetRaycast(transform, playerDirection, size, 1 << playerLayer);
-
-        private void DrawRaycast(
-            Vector2 playerDirection,
-            float size,
-            Color color,
-            float debugPosition = 0
-        ) =>
-            RayCastUtillity.DebugGetHitRaycast(
-                transform.position,
-                playerDirection,
-                size,
-                debugPosition,
-                color
-            );
     }
 }
