@@ -18,29 +18,56 @@ namespace Core.Entities
         public bool isPermitedJump;
         public EnemyType enemyType;
 
+        //TODO: deletar depois
+        public float distanceVision = 5f;
+        public float distanceDesingage = 2.5f;
+        public float distanceAttack = 1f;
+        public string enemyName;
+
         protected override void Start()
         {
             base.Start();
-            playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+            playerTransform = GameObject.FindGameObjectWithTag(enemyName).transform;
             playerLayer = playerTransform.gameObject.layer;
         }
 
         protected override void Update()
         {
             base.Update();
+            if (!playerTransform) return;
             var playerDirection = PlayerDirection();
-            visionHit = CreateEnemyRaycast(5f, playerDirection);
-            desingageHit = CreateEnemyRaycast(2.5f, playerDirection);
-            damageRay = CreateEnemyRaycast(1f, playerDirection);
+            visionHit = CreateEnemyRaycast(distanceVision, playerDirection);
+            desingageHit = CreateEnemyRaycast(distanceDesingage, playerDirection);
+            damageRay = CreateEnemyRaycast(distanceAttack, playerDirection);
 
             if (!isLive) return;
 
             EnemyBehaviour();
             if (isDebugRaycast)
             {
-                RayCastUtillity.DebugGetHitRaycast(transform.position, playerDirection, 5f, 0.1f, Color.red); //See player
-                RayCastUtillity.DebugGetHitRaycast(transform.position, playerDirection, 1f, 0, Color.blue); //Hit player
-                RayCastUtillity.DebugGetHitRaycast(transform.position, playerDirection, 2.5f, -0.1f, Color.yellow); //Desingage player
+                RayCastUtillity.DebugGetHitRaycast(transform.position, playerDirection, distanceVision, 0.1f, Color.red); //See player
+                RayCastUtillity.DebugGetHitRaycast(transform.position, playerDirection, distanceAttack, 0, Color.blue); //Hit player
+                RayCastUtillity.DebugGetHitRaycast(transform.position, playerDirection, distanceDesingage, -0.1f, Color.yellow); //Desingage player
+            }
+        }
+
+        protected override void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.gameObject.tag == ("JumpTrigger"))
+            {
+                isGrounded = true;
+                canJump = true;
+                isPermitedJump = true;
+            }
+        }
+
+        protected override void OnTriggerExitr2D(Collider2D collision)
+        {
+            if (collision.gameObject.tag == ("JumpTrigger"))
+            {
+                isGrounded = false;
+                canJump = false;
+                isPermitedJump = false;
             }
         }
 

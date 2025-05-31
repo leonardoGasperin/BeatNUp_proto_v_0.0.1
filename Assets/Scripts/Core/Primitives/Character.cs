@@ -1,5 +1,6 @@
 using Configuration;
 using Core.Contract;
+using Core.Entities;
 using Infracstructure.Handler;
 using UnityEngine;
 
@@ -44,16 +45,29 @@ namespace Core.Primitive
                 Debug.Log("HP " + gameObject.name + ": " + healthPoint);
                 Debug.Log(gameObject.name + " is live: " + isLive);
             }
+
+            if (!isLive)
+                Destroy(this.gameObject);
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
+        protected virtual void OnCollisionEnter2D(Collision2D collision)
         {
             collisionHandler.OnCollisionEnter2D(collision);
         }
 
-        private void OnCollisionExit2D(Collision2D collision)
+        protected virtual void OnCollisionExit2D(Collision2D collision)
         {
             collisionHandler.OnCollisionExit2D(collision);
+        }
+
+        protected virtual void OnTriggerEnter2D(Collider2D collision)
+        {
+
+        }
+
+        protected virtual void OnTriggerExitr2D(Collider2D collision)
+        {
+
         }
 
         public void DoDamage(Character target)

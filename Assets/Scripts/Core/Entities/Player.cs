@@ -35,11 +35,12 @@ namespace Core.Entities
             }
         }
 
-        public void TryAttack()
+        public void TryAttack(int direction)
         {
+            var attackDirection = (transform.position + transform.right) * direction;
             RaycastHit2D damageRay = RayCastUtillity.GetRaycast(
                 transform,
-                transform.position + transform.right,
+                attackDirection,
                 1f,
                 1 << LayerMask.NameToLayer("Enemy")
             );

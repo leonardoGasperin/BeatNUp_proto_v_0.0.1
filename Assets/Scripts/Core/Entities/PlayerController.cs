@@ -5,6 +5,7 @@ namespace Core.Entities
     public sealed class PlayerController : MonoBehaviour
     {
         private Player player;
+        private int direction = 0;
 
         private void Start()
         {
@@ -14,10 +15,10 @@ namespace Core.Entities
         private void FixedUpdate()
         {
             if (player == null || !player.isLive) return;
-
             if (Input.GetButton("Horizontal"))
             {
-                player.MoveHorizontal((int)Input.GetAxisRaw("Horizontal"));
+                direction = (int)Input.GetAxisRaw("Horizontal");
+                player.MoveHorizontal(direction);
             }
         }
 
@@ -32,7 +33,7 @@ namespace Core.Entities
 
             if (Input.GetButtonDown("Fire1"))
             {
-                player.TryAttack();
+                player.TryAttack(direction);
             }
 
             player.isBlocking = Input.GetButton("Fire2");

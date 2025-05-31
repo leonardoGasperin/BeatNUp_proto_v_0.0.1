@@ -322,7 +322,7 @@ Transform:
   m_GameObject: {fileID: 109786855}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -5.54, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -474,7 +474,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2026101559147530817, guid: e46e14c4e576819489bb96c88b6189af, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 120.33
+      value: 125.45
       objectReference: {fileID: 0}
     - target: {fileID: 2026101559147530817, guid: e46e14c4e576819489bb96c88b6189af, type: 3}
       propertyPath: m_LocalPosition.y
@@ -517,8 +517,12 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2574305363809604189, guid: e46e14c4e576819489bb96c88b6189af, type: 3}
+      propertyPath: enemyName
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2574305363809604189, guid: e46e14c4e576819489bb96c88b6189af, type: 3}
       propertyPath: enemyType
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2574305363809604189, guid: e46e14c4e576819489bb96c88b6189af, type: 3}
       propertyPath: isBlocking
@@ -526,7 +530,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2574305363809604189, guid: e46e14c4e576819489bb96c88b6189af, type: 3}
       propertyPath: healthPoint
-      value: 300
+      value: 49
       objectReference: {fileID: 0}
     - target: {fileID: 2574305363809604189, guid: e46e14c4e576819489bb96c88b6189af, type: 3}
       propertyPath: blockingRate
